@@ -1,7 +1,6 @@
 package chess;
 
 import boardgame.Board;
-import boardgame.Position;
 import chess.pieces.King;
 import chess.pieces.Rook;
 
@@ -27,7 +26,8 @@ public class ChessMatch {
 	 * 
 	 * Criei uma variavel auxiliar que é um vetor, e já instancio ela recebendo de
 	 * parâmetro o row e column, ai precisa passar por dois for, um para pegar a
-	 * linha outro para pegar a coluna, ai depois disso eu faço o downCasting do board para um ChessPiece.
+	 * linha outro para pegar a coluna, ai depois disso eu faço o downCasting do
+	 * board para um ChessPiece.
 	 */
 	public ChessPiece[][] getPiences() {
 		ChessPiece[][] mat = new ChessPiece[board.getRows()][board.getColumns()];
@@ -38,11 +38,26 @@ public class ChessMatch {
 		}
 		return mat;
 	}
-	
+
+	/*
+	 * Aqui eu obrigando a ser informado as peças mais nas cordenadas do xadrez e
+	 * não na da matriz, e como eu já criei o método para converter de posição de
+	 * xadrez para matriz eu uso esse método.
+	 */
+	private void placeNewPiece(char column, int row, ChessPiece piece) {
+		board.PlacePiece(piece, new ChessPosition(column, row).toPosition());
+	}
+
+	/*
+	 * Ai aqui eu pego direto a posição do xadrez para colocar a peça, porque dentro
+	 * da "ChessPosition" eu to convertendo essa posição para a de matriz o que vai
+	 * colocar a peça no lugar correto, e não crio nada no board porque ele ta no
+	 * método que faz a conversão da parada
+	 */
 	private void initialSetup() {
-		board.PlacePiece(new Rook(board, Color.WHITE), new Position(2,1));
-		board.PlacePiece(new King(board, Color.BLACK), new Position(0,4));
-		board.PlacePiece(new King(board, Color.BLACK), new Position(7,4));
+		placeNewPiece('b', 6, new Rook(board, Color.WHITE));
+		placeNewPiece('e', 8, new King(board, Color.BLACK));
+		placeNewPiece('e', 1, new King(board, Color.BLACK));
 	}
 
 }
