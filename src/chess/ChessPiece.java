@@ -2,13 +2,17 @@ package chess;
 
 import boardgame.Board;
 import boardgame.Piece;
-import boardgame.Position;
 
 public class ChessPiece extends Piece {
+
 	private Color color;
 
-	public ChessPiece(Position position, Board board, Color color) {
-		super(position, board);
+	/*
+	 * Aqui não tem o position no construtor , eu tinha cabaçado na criação da
+	 * classe piece e por isso deu erro em algumas coisa quiando fui criar
+	 */
+	public ChessPiece(Board board, Color color) {
+		super(board);
 		this.color = color;
 	}
 
