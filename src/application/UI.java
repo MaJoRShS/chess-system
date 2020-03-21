@@ -35,6 +35,16 @@ public class UI {
 	public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
 
 	/*
+	 * Código do stackOverFlow para poder limpar a tela.
+	 */
+
+	// https://stackoverflow.com/questions/2979383/java-clear-the-console
+	public static void clearScreen() {
+		System.out.print("\033[H\033[2J");
+		System.out.flush();
+	}
+
+	/*
 	 * Aqui eu to recebendo uma Posição de Xadrez(ChessPosition) no formato "a1" e
 	 * ai eu quebro primeiro a letra e depois o numero, ali tem uma parada que é o
 	 * "parseInt" onde eu transformo uma string em inteiro, e qualquer execeção que
