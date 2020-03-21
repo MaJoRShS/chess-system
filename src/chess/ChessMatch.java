@@ -1,6 +1,8 @@
 package chess;
 
 import boardgame.Board;
+import boardgame.Piece;
+import boardgame.Position;
 import chess.pieces.King;
 import chess.pieces.Rook;
 
@@ -37,6 +39,39 @@ public class ChessMatch {
 			}
 		}
 		return mat;
+	}
+
+	// Operação que vai movimentar as peças
+	public ChessPiece performChessMove(ChessPosition sourcePosition, ChessPosition targetPosition) {
+		// Aqui preciso transformar essa posições de xadrez em posições de matriz
+		Position source = sourcePosition.toPosition();
+		Position target = targetPosition.toPosition();
+
+		// Validando para ver se a posição de origem existia
+		validateSourcePosition(source);
+
+		// moendo a peça da origem(source) para o destino(target
+		Piece capturedPiece = makeMove(source, target);
+		// Aqui tem que fazer o downCast pórque o "capturePiece" é do tipo Piece
+		return (ChessPiece) capturedPiece;
+
+	}
+	
+	private Piece makeMove(Position source, Position target) {
+		//Removendo a peça do local de origem
+		Piece p = board.removePiece(source);
+		//Removendo a posivel peça do lugar de destino
+		Piece capturedPiece = board.removePiece(target);
+		//Movendo a peça de Origem para o local destino
+		board.PlacePiece(p, target);
+		return capturedPiece;
+	}
+	
+
+	private void validateSourcePosition(Position position) {
+		if (!board.thereIsAPiece(position)) {
+			throw new ChessException("There is not a piece on source position");
+		}
 	}
 
 	/*

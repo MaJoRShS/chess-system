@@ -1,6 +1,10 @@
 package application;
 
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
 import chess.ChessPiece;
+import chess.ChessPosition;
 import chess.Color;
 
 public class UI {
@@ -31,6 +35,24 @@ public class UI {
 	public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
 
 	/*
+	 * Aqui eu to recebendo uma Posição de Xadrez(ChessPosition) no formato "a1" e
+	 * ai eu quebro primeiro a letra e depois o numero, ali tem uma parada que é o
+	 * "parseInt" onde eu transformo uma string em inteiro, e qualquer execeção que
+	 * der eu vou printar aquela mensagem ali para o usuario.
+	 */
+
+	public static ChessPosition readChessPosition(Scanner sc) {
+		try {
+			String s = sc.nextLine();
+			char column = s.charAt(0);
+			int row = Integer.parseInt(s.substring(1));
+			return new ChessPosition(column, row);
+		} catch (RuntimeException e) {
+			throw new InputMismatchException("Error reading  ChessPosition. Valid values are from a1 to h8");
+		}
+	}
+
+	/*
 	 * Classe responsavel por imprimir as peças do jogo, esse cara aqui de cima
 	 * printa todas as peças do tabuleiro, isso caso existam , se não ele só vai
 	 * imprimir o tabuleiro
@@ -57,16 +79,14 @@ public class UI {
 
 	public static void printPiece(ChessPiece piece) {
 		if (piece == null) {
-            System.out.print("-");
-        }
-        else {
-            if (piece.getColor() == Color.WHITE) {
-                System.out.print(ANSI_WHITE + piece + ANSI_RESET);
-            }
-            else {
-                System.out.print(ANSI_YELLOW + piece + ANSI_RESET);
-            }
-        }
-        System.out.print(" ");
+			System.out.print("-");
+		} else {
+			if (piece.getColor() == Color.WHITE) {
+				System.out.print(ANSI_WHITE + piece + ANSI_RESET);
+			} else {
+				System.out.print(ANSI_YELLOW + piece + ANSI_RESET);
+			}
+		}
+		System.out.print(" ");
 	}
 }
