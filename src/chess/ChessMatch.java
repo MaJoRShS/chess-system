@@ -50,23 +50,25 @@ public class ChessMatch {
 		// Validando para ver se a posição de origem existia
 		validateSourcePosition(source);
 
+		// Validando posição de destino para ver se ele está fazendo correto
+		validateTargetPosition(source, target);
+
 		// moendo a peça da origem(source) para o destino(target
 		Piece capturedPiece = makeMove(source, target);
 		// Aqui tem que fazer o downCast pórque o "capturePiece" é do tipo Piece
 		return (ChessPiece) capturedPiece;
 
 	}
-	
+
 	private Piece makeMove(Position source, Position target) {
-		//Removendo a peça do local de origem
+		// Removendo a peça do local de origem
 		Piece p = board.removePiece(source);
-		//Removendo a posivel peça do lugar de destino
+		// Removendo a posivel peça do lugar de destino
 		Piece capturedPiece = board.removePiece(target);
-		//Movendo a peça de Origem para o local destino
+		// Movendo a peça de Origem para o local destino
 		board.PlacePiece(p, target);
 		return capturedPiece;
 	}
-	
 
 	private void validateSourcePosition(Position position) {
 		if (!board.thereIsAPiece(position)) {
@@ -74,6 +76,16 @@ public class ChessMatch {
 		}
 		if (!board.piece(position).isThereAnyPossibleMove()) {
 			throw new ChessException("There is no possible moves for the chosen piece");
+		}
+	}
+
+	/*
+	 * Aqui eu to testando a posição de destino, porque eu preciso saber se eu posso
+	 * mover a peça para la
+	 */
+	private void validateTargetPosition(Position source, Position target) {
+		if (!board.piece(source).possibleMove(target)) {
+			throw new ChessException("The chosen piece can't move to target position");
 		}
 	}
 

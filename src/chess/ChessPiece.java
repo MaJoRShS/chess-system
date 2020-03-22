@@ -2,6 +2,7 @@ package chess;
 
 import boardgame.Board;
 import boardgame.Piece;
+import boardgame.Position;
 
 public abstract class ChessPiece extends Piece {
 
@@ -18,6 +19,17 @@ public abstract class ChessPiece extends Piece {
 
 	public Color getColor() {
 		return color;
+	}
+
+	/*
+	 * Aqui eu to verificando se no tabuleiro a casa para onde eu quero andar esta
+	 * nula ou se tem peça de inimigo, se tiver nula e consigo ir e se tiver peça de
+	 * inimigo eu também consigo, mais se for peça do meu time eu não consigo, isso
+	 * claro ainda não levamos em consideração as movimentações de cada peça
+	 */
+	public boolean isThereOpponentPiece(Position position) {
+		ChessPiece p = (ChessPiece) getBoard().piece(position);
+		return p != null && p.getColor() != color;
 	}
 
 }

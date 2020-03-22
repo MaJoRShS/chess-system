@@ -30,6 +30,15 @@ public class Position {
 		this.column = column;
 	}
 
+	/*
+	 * Aqui eu to permitindo que sejam inseridos novos valores para linha e coluna,
+	 * mais sempre por meio de um método.
+	 */
+	public void setValues(int row, int column) {
+		this.column = column;
+		this.row = row;
+	}
+
 	@Override
 	public String toString() {
 		return row + ", " + column;
