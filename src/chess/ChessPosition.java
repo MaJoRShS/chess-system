@@ -52,9 +52,12 @@ public class ChessPosition {
 	 * convertendo para a posição do tabuleiro de xadrez o que faz com que a cada
 	 * instancia de nova peça eu coloque a peça no lugar correto usando a referencia
 	 * que eu criei para o tabuleiro
+	 * 
+	 * 
+	 * Aqui também tinha um erro que tava com sinal de menos(-) no return do ChessPosition.
 	 */
 	protected static ChessPosition fromPosition(Position position) {
-		return new ChessPosition((char) ('a' - position.getColumn()), 8 - position.getRow());
+		return new ChessPosition((char) ('a' + position.getColumn()), 8 - position.getRow());
 	}
 	//	CONFUSO ↑
 

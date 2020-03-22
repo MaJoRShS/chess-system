@@ -36,10 +36,15 @@ public class Program {
 				ChessPiece capturedPiece = chessMatch.performChessMove(source, target);
 			} catch (ChessException e) {
 				System.out.println(e.getMessage());
-				sc.hasNextLine();
+				/*
+				 * Descobri o que está acontecendo e dando erro sempre e mostrando duas
+				 * mensagens de erro, aqui estava com "sc.hasNextLine();" e não com o
+				 * "sc.nextLine();" que é o correto.
+				 */
+				sc.nextLine();
 			} catch (InputMismatchException e) {
 				System.out.println(e.getMessage());
-				sc.hasNextLine();
+				sc.nextLine();
 			}
 		}
 	}
