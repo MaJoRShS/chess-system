@@ -74,7 +74,32 @@ public class UI {
 			System.out.print((8 - i) + " ");
 
 			for (int j = 0; j < pieces.length; j++) {
-				printPiece(pieces[i][j]);
+				/*
+				 * Aqui tive que colocar como false porque eu tive que mudar o proprio método
+				 * "printPiece()"
+				 */
+				printPiece(pieces[i][j], false);
+			}
+			System.out.println();
+		}
+		System.out.println("  a b c d e f g h");
+	}
+
+	/*
+	 * Sobrecarga do método printBoard, aqui ele vai printar os movimentos possiveis
+	 * de cada peça selecionada, porém é só na sobregarca que acontece isso
+	 */
+	public static void printBoard(ChessPiece[][] pieces, boolean[][] posibleMoves) {
+
+		for (int i = 0; i < pieces.length; i++) {
+
+			System.out.print((8 - i) + " ");
+
+			for (int j = 0; j < pieces.length; j++) {
+				/*
+				 * Aqui eu to printando todas as posições que são possiveis serem alteradas
+				 */
+				printPiece(pieces[i][j], posibleMoves[i][j]);
 			}
 			System.out.println();
 		}
@@ -87,9 +112,20 @@ public class UI {
 	 * deixar as peças colados umas nas outras
 	 */
 
-	public static void printPiece(ChessPiece piece) {
+	/*
+	 * Mudei o "printPiece" porque agora eu printo as posições que são possiveis de
+	 * cada peça
+	 */
+	public static void printPiece(ChessPiece piece, boolean background) {
+		if (background) {
+			System.out.print(ANSI_BLUE_BACKGROUND);
+		}
 		if (piece == null) {
-			System.out.print("-");
+			/*
+			 * Aqui tive que colocar o resete em cada peça para ele limpar depois de eu
+			 * mover a peça
+			 */
+			System.out.print("-" + ANSI_RESET);
 		} else {
 			if (piece.getColor() == Color.WHITE) {
 				System.out.print(ANSI_WHITE + piece + ANSI_RESET);

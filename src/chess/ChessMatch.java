@@ -41,6 +41,16 @@ public class ChessMatch {
 		return mat;
 	}
 
+	/*
+	 * Aqui eu to passando a posição direto para a classe principal para poder
+	 * pintar a tela para os movimentos possiveis
+	 */
+	public boolean[][] possibleMoves(ChessPosition sourcePosition) {
+		Position position = sourcePosition.toPosition();
+		validateSourcePosition(position);
+		return board.piece(position).possibleMoves();
+	}
+
 	// Operação que vai movimentar as peças
 	public ChessPiece performChessMove(ChessPosition sourcePosition, ChessPosition targetPosition) {
 		// Aqui preciso transformar essa posições de xadrez em posições de matriz
