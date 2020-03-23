@@ -3,6 +3,7 @@ package application;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import chess.ChessMatch;
 import chess.ChessPiece;
 import chess.ChessPosition;
 import chess.Color;
@@ -60,6 +61,17 @@ public class UI {
 		} catch (RuntimeException e) {
 			throw new InputMismatchException("Error reading  ChessPosition. Valid values are from a1 to h8");
 		}
+	}
+
+	/*
+	 * Aqui é o novo método responsavel por imprimir a partida na tela e ele vai
+	 * paresentar as informações de qual player deve jogar na tela
+	 */
+	public static void printMatch(ChessMatch chessMatch) {
+		printBoard(chessMatch.getPiences());
+		System.err.println();
+		System.err.println("Trun: " + chessMatch.getTurn());
+		System.err.println("Waiting player: " + chessMatch.getCurrentPlayer());
 	}
 
 	/*

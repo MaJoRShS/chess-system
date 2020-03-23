@@ -24,7 +24,7 @@ public class Program {
 			try {
 				// Método que limpa a tela e impede que fique apenas rolando para baixo
 				UI.clearScreen();
-				UI.printBoard(chessMatch.getPiences());
+				UI.printMatch(chessMatch);
 				System.out.println();
 				System.out.print("Source: ");
 				ChessPosition source = UI.readChessPosition(sc);

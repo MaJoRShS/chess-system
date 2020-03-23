@@ -7,7 +7,13 @@ import chess.pieces.King;
 import chess.pieces.Rook;
 
 public class ChessMatch {
+
+	/*
+	 * Adicionamos mais dois atributos o turno e o jogador da vez
+	 */
 	private Board board;
+	private int turn;
+	private Color currentPlayer;
 
 	/*
 	 * Aqui nesse construtor eu já começo instanciando com o tamanho correto do
@@ -16,7 +22,17 @@ public class ChessMatch {
 	 */
 	public ChessMatch() {
 		board = new Board(8, 8);
+		turn = 1;
+		currentPlayer = Color.WHITE;
 		initialSetup();
+	}
+
+	public int getTurn() {
+		return turn;
+	}
+
+	public Color getCurrentPlayer() {
+		return currentPlayer;
 	}
 
 	/*
@@ -65,6 +81,8 @@ public class ChessMatch {
 
 		// moendo a peça da origem(source) para o destino(target
 		Piece capturedPiece = makeMove(source, target);
+		// Aqui eu mudando o turno e o jogador
+		nextTurn();
 		// Aqui tem que fazer o downCast pórque o "capturePiece" é do tipo Piece
 		return (ChessPiece) capturedPiece;
 
@@ -84,6 +102,16 @@ public class ChessMatch {
 		if (!board.thereIsAPiece(position)) {
 			throw new ChessException("There is not a piece on source position");
 		}
+		/*
+		 * Aqui to validando se a peça escolhida pertence aquele player
+		 * 
+		 * e na validação como o getColor e da classe "ChessPiece" e não da piece eu
+		 * tive que fazer o casting e mudar o board.piece naquela posição para
+		 * chessPìece, ai o getColor funciona.
+		 */
+		if (currentPlayer != ((ChessPiece) board.piece(position)).getColor()) {
+			throw new ChessException("The chosen piece is not yours");
+		}
 		if (!board.piece(position).isThereAnyPossibleMove()) {
 			throw new ChessException("There is no possible moves for the chosen piece");
 		}
@@ -97,6 +125,15 @@ public class ChessMatch {
 		if (!board.piece(source).possibleMove(target)) {
 			throw new ChessException("The chosen piece can't move to target position");
 		}
+	}
+
+	public void nextTurn() {
+		/*
+		 * Aqui vai um imcremento para saber em qual rodada está e depois uma condição
+		 * ternaria para mudar o jogar pela cor
+		 */
+		turn++;
+		currentPlayer = (currentPlayer == Color.WHITE) ? Color.BLACK : Color.WHITE;
 	}
 
 	/*
