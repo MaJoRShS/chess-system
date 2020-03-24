@@ -1,6 +1,8 @@
 package application;
 
+import java.util.ArrayList;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 import chess.ChessException;
@@ -18,13 +20,17 @@ public class Program {
 		 * peças e o tabuleiro, isso caso exista os dois.
 		 */
 		ChessMatch chessMatch = new ChessMatch();
+		// Setei a lista de peças capturadas no jogo
+		List<ChessPiece> captured = new ArrayList<>();
 
 		while (true) {
 			// Adicionamos o tratamento das execeções que podem ocorrer aqui no programa
 			try {
 				// Método que limpa a tela e impede que fique apenas rolando para baixo
 				UI.clearScreen();
-				UI.printMatch(chessMatch);
+				
+				//Tive que mudar aqui para ele apresentar as listas de peças capturadas
+				UI.printMatch(chessMatch, captured);
 				System.out.println();
 				System.out.print("Source: ");
 				ChessPosition source = UI.readChessPosition(sc);
@@ -37,6 +43,15 @@ public class Program {
 				ChessPosition target = UI.readChessPosition(sc);
 
 				ChessPiece capturedPiece = chessMatch.performChessMove(source, target);
+
+				/*
+				 * Aqui tem a validação que é feita para saber se tem alguma peça capturada, se
+				 * houver eu jogo ela na lista de peças capturadas se não fica como está
+				 */
+				if (capturedPiece != null) {
+					captured.add(capturedPiece);
+
+				}
 			} catch (ChessException e) {
 				System.out.println(e.getMessage());
 				/*

@@ -1,5 +1,8 @@
 package chess;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import boardgame.Board;
 import boardgame.Piece;
 import boardgame.Position;
@@ -14,6 +17,13 @@ public class ChessMatch {
 	private Board board;
 	private int turn;
 	private Color currentPlayer;
+
+	/*
+	 * Duas novas listar para armazenar as peças que foram capturadas e as peças que
+	 * ainda estão no game
+	 */
+	private List<Piece> piecesOnTheBoard = new ArrayList<>();
+	private List<Piece> capturedPieces = new ArrayList<>();
 
 	/*
 	 * Aqui nesse construtor eu já começo instanciando com o tamanho correto do
@@ -95,6 +105,15 @@ public class ChessMatch {
 		Piece capturedPiece = board.removePiece(target);
 		// Movendo a peça de Origem para o local destino
 		board.PlacePiece(p, target);
+
+		/*
+		 * Aqui eu valido as peças que foram capturadas e adiciono na lista de capturas
+		 * as peças que foram capturadas e removo do tabuleiro
+		 */
+		if (capturedPiece != null) {
+			piecesOnTheBoard.remove(capturedPiece);
+			capturedPieces.add(capturedPiece);
+		}
 		return capturedPiece;
 	}
 
@@ -143,6 +162,11 @@ public class ChessMatch {
 	 */
 	private void placeNewPiece(char column, int row, ChessPiece piece) {
 		board.PlacePiece(piece, new ChessPosition(column, row).toPosition());
+
+		/*
+		 * Adicionamos aqui as peças do tabuleiro na lista de peças no tabuleiro
+		 */
+		piecesOnTheBoard.add(piece);
 	}
 
 	/*
