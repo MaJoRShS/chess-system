@@ -59,8 +59,11 @@ public class Board {
 	 * tabuleiro, e eu consigo acessar direto o "piece" para passar o position
 	 * porque ele é um atributo "proteceted" que me permite fazer isso porque estou
 	 * em uma classe filha
+	 * 
+	 * 
+	 * Tava com maiusculo
 	 */
-	public void PlacePiece(Piece piece, Position position) {
+	public void placePiece(Piece piece, Position position) {
 		/*
 		 * Validação para ver se já existe uma peça naquela posição do tabuleiro.
 		 */

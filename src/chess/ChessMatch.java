@@ -2,6 +2,7 @@ package chess;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import boardgame.Board;
 import boardgame.Piece;
@@ -17,6 +18,11 @@ public class ChessMatch {
 	private Board board;
 	private int turn;
 	private Color currentPlayer;
+	/*
+	 * Adicionou um atributo que vai receber o true ou false em caso da partida
+	 * estar em check
+	 */
+	private boolean check;
 
 	/*
 	 * Duas novas listar para armazenar as peças que foram capturadas e as peças que
@@ -104,7 +110,7 @@ public class ChessMatch {
 		// Removendo a posivel peça do lugar de destino
 		Piece capturedPiece = board.removePiece(target);
 		// Movendo a peça de Origem para o local destino
-		board.PlacePiece(p, target);
+		board.placePiece(p, target);
 
 		/*
 		 * Aqui eu valido as peças que foram capturadas e adiciono na lista de capturas
@@ -115,6 +121,21 @@ public class ChessMatch {
 			capturedPieces.add(capturedPiece);
 		}
 		return capturedPiece;
+	}
+
+	/*
+	 * Desfazendo a joga em caso de o check na partida, o jogador não pode se
+	 * colocar em chek
+	 */
+	public void undoMove(Position source, Position target, Piece capturedPiece) {
+		Piece p = board.removePiece(target);
+		board.placePiece(p, source);
+
+		if (capturedPiece != null) {
+			board.placePiece(capturedPiece, target);
+			capturedPieces.remove(capturedPiece);
+			piecesOnTheBoard.add(capturedPiece);
+		}
 	}
 
 	private void validateSourcePosition(Position position) {
@@ -156,12 +177,35 @@ public class ChessMatch {
 	}
 
 	/*
+	 * Esse cara vai retornar o oponento do jogador da rodada
+	 */
+	private Color opponent(Color color) {
+		return (color == Color.WHITE) ? Color.BLACK : Color.WHITE;
+	}
+
+	/*
+	 * Aqui ele ta procurando um rei da cor que foi informada em todo o tabuleiro,ai
+	 * usa la o lambda para retornar esse rei e quando encontra devolve, caso não
+	 * ache nenhum rei no tabuleiro da erro , mais esse erro é para nunca acontecer
+	 */
+	private ChessPiece king(Color color) {
+		List<Piece> list = piecesOnTheBoard.stream().filter(x -> ((ChessPiece) x).getColor() == color)
+				.collect(Collectors.toList());
+		for (Piece p : list) {
+			if (p instanceof King) {
+				return (ChessPiece) p;
+			}
+		}
+		throw new IllegalStateException("There is no " + color + "king on the board");
+	}
+
+	/*
 	 * Aqui eu obrigando a ser informado as peças mais nas cordenadas do xadrez e
 	 * não na da matriz, e como eu já criei o método para converter de posição de
 	 * xadrez para matriz eu uso esse método.
 	 */
 	private void placeNewPiece(char column, int row, ChessPiece piece) {
-		board.PlacePiece(piece, new ChessPosition(column, row).toPosition());
+		board.placePiece(piece, new ChessPosition(column, row).toPosition());
 
 		/*
 		 * Adicionamos aqui as peças do tabuleiro na lista de peças no tabuleiro

@@ -22,6 +22,14 @@ public abstract class ChessPiece extends Piece {
 	}
 
 	/*
+	 * Aqui eu to retornando as posições do xadrez porque eu não tenho acesso ao
+	 * position da piece e não posso retornar as posiçõe em forma de matriz
+	 */
+	public ChessPosition getChessPosition() {
+		return ChessPosition.fromPosition(position);
+	}
+
+	/*
 	 * Aqui eu to verificando se no tabuleiro a casa para onde eu quero andar esta
 	 * nula ou se tem peça de inimigo, se tiver nula e consigo ir e se tiver peça de
 	 * inimigo eu também consigo, mais se for peça do meu time eu não consigo, isso
