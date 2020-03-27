@@ -1,6 +1,7 @@
 package chess;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -50,6 +51,11 @@ public class ChessMatch {
 	public Color getCurrentPlayer() {
 		return currentPlayer;
 	}
+	
+	//expomos o atibuto check
+	public boolean getCheck() {
+		return check;
+	}
 
 	/*
 	 * Aqui eu to criando um tipo diferente de peça , poruqe eu não quero que o
@@ -97,6 +103,23 @@ public class ChessMatch {
 
 		// moendo a peça da origem(source) para o destino(target
 		Piece capturedPiece = makeMove(source, target);
+
+		/*
+		 * Aqui to adicionando validação para ver se o movimento que o cara fez o
+		 * colocou em check se for o caso eu tenho que desfazer a jogada dele e
+		 * apresentar um exceção
+		 */
+		if (testCheck(currentPlayer)) {
+			undoMove(source, target, capturedPiece);
+			throw new ChessException("You can't put yourself in check");
+		}
+
+		/*
+		 * Aqui a validação é para ver se o cara movel e fez o check, ai eu altero a
+		 * propriedade do jogo informando que ta check porque o oponente dele fez isso.
+		 */
+		check = (testCheck(opponent(currentPlayer))) ? true : false;
+
 		// Aqui eu mudando o turno e o jogador
 		nextTurn();
 		// Aqui tem que fazer o downCast pórque o "capturePiece" é do tipo Piece
@@ -197,6 +220,24 @@ public class ChessMatch {
 			}
 		}
 		throw new IllegalStateException("There is no " + color + "king on the board");
+	}
+
+	/*
+	 * Aqui eu to percorrendo todas as peças do inimigo para ver se alguma peça dele
+	 * está com os movimentos possiveis caindo sobre o meu REI o que vai
+	 * automaticamente mostrar que o jogo está em check
+	 */
+	private boolean testCheck(Color color) {
+		Position kingPosition = king(color).getChessPosition().toPosition();
+		List<Piece> opponentPeices = piecesOnTheBoard.stream()
+				.filter(x -> ((ChessPiece) x).getColor() == opponent(color)).collect(Collectors.toList());
+		for (Piece p : opponentPeices) {
+			boolean[][] mat = p.possibleMoves();
+			if (mat[kingPosition.getRow()][kingPosition.getColumn()]) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/*
