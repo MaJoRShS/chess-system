@@ -140,7 +140,14 @@ public class ChessMatch {
 
 	private Piece makeMove(Position source, Position target) {
 		// Removendo a peça do local de origem
-		Piece p = board.removePiece(source);
+
+		/*
+		 * Aqui eu tive que fazer uma mudança de "Piece" para "ChessPiece" porque se não
+		 * não seria possivel acessar os métodos que eu criei dentro de "Piece" então
+		 * tive que fazer o downCasting
+		 */
+		ChessPiece p = (ChessPiece) board.removePiece(source);
+		p.increseMoveCount();
 		// Removendo a posivel peça do lugar de destino
 		Piece capturedPiece = board.removePiece(target);
 		// Movendo a peça de Origem para o local destino
@@ -162,7 +169,11 @@ public class ChessMatch {
 	 * colocar em chek
 	 */
 	public void undoMove(Position source, Position target, Piece capturedPiece) {
-		Piece p = board.removePiece(target);
+		/*
+		 * Aqui a mesma coisa só que para o decremento.
+		 */
+		ChessPiece p = (ChessPiece) board.removePiece(target);
+		p.decreseMoveCount();
 		board.placePiece(p, source);
 
 		if (capturedPiece != null) {

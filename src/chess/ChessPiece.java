@@ -7,6 +7,7 @@ import boardgame.Position;
 public abstract class ChessPiece extends Piece {
 
 	private Color color;
+	private int moveCount;
 
 	/*
 	 * Aqui não tem o position no construtor , eu tinha cabaçado na criação da
@@ -19,6 +20,18 @@ public abstract class ChessPiece extends Piece {
 
 	public Color getColor() {
 		return color;
+	}
+	
+	public int getMoveCount() {
+		return moveCount;
+	}
+
+	public void increseMoveCount() {
+		moveCount++;
+	}
+
+	public void decreseMoveCount() {
+		moveCount--;
 	}
 
 	/*
