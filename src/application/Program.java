@@ -23,7 +23,7 @@ public class Program {
 		// Setei a lista de peças capturadas no jogo
 		List<ChessPiece> captured = new ArrayList<>();
 
-		while (true) {
+		while (!chessMatch.getCheckMate()) {
 			// Adicionamos o tratamento das execeções que podem ocorrer aqui no programa
 			try {
 				// Método que limpa a tela e impede que fique apenas rolando para baixo
@@ -65,6 +65,8 @@ public class Program {
 				sc.nextLine();
 			}
 		}
+		UI.clearScreen();
+		UI.printMatch(chessMatch, captured);
 	}
 
 }
