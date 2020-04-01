@@ -173,13 +173,12 @@ public class ChessMatch {
 		return (ChessPiece) capturedPiece;
 
 	}
-	
-	
+
 	public ChessPiece replacePromotedPiece(String type) {
 		if (promoted == null) {
 			throw new IllegalStateException("There is no piece to be promoted");
 		}
-		if (!type.equals("B") && !type.equals("N") && !type.equals("R") && !type.equals("Q")) {
+		if (!type.equals("B") && !type.equals("N") && !type.equals("R") & !type.equals("Q")) {
 			return promoted;
 		}
 
@@ -195,12 +194,14 @@ public class ChessMatch {
 	}
 
 	private ChessPiece newPiece(String type, Color color) {
-		if (type.equals("B")) return new Bishop(board, color);
-		if (type.equals("N")) return new Knight(board, color);
-		if (type.equals("Q")) return new Queen(board, color);
+		if (type.equals("B"))
+			return new Bishop(board, color);
+		if (type.equals("N"))
+			return new Knight(board, color);
+		if (type.equals("Q"))
+			return new Queen(board, color);
 		return new Rook(board, color);
 	}
-
 
 	private Piece makeMove(Position source, Position target) {
 		ChessPiece p = (ChessPiece) board.removePiece(source);

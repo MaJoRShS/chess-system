@@ -28,8 +28,8 @@ public class Program {
 			try {
 				// Método que limpa a tela e impede que fique apenas rolando para baixo
 				UI.clearScreen();
-				
-				//Tive que mudar aqui para ele apresentar as listas de peças capturadas
+
+				// Tive que mudar aqui para ele apresentar as listas de peças capturadas
 				UI.printMatch(chessMatch, captured);
 				System.out.println();
 				System.out.print("Source: ");
@@ -52,15 +52,15 @@ public class Program {
 					captured.add(capturedPiece);
 
 				}
-				
+
 				if (chessMatch.getPromoted() != null) {
 					System.out.print("Enter piece for promotion (B/N/R/Q): ");
-					String type = sc.nextLine();
 					String type = sc.nextLine().toUpperCase();
-					while (!type.equals("B") && !type.equals("N") && !type.equals("R") && !type.equals("Q")) {
+					while (!type.equals("B") && !type.equals("N") && !type.equals("R") & !type.equals("Q")) {
 						System.out.print("Invalid value! Enter piece for promotion (B/N/R/Q): ");
 						type = sc.nextLine().toUpperCase();
 					}
+					chessMatch.replacePromotedPiece(type);
 				}
 			} catch (ChessException e) {
 				System.out.println(e.getMessage());
